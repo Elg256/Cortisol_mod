@@ -20,6 +20,7 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -41,6 +42,7 @@ import net.tech.cortisolmod.CortisolMod;
 import net.tech.cortisolmod.client.EyesHudOverlay;
 import net.tech.cortisolmod.cortisol.PlayerCortisol;
 import net.tech.cortisolmod.cortisol.PlayerCortisolProvider;
+import net.tech.cortisolmod.item.ModItems;
 import net.tech.cortisolmod.item.custom.CortisolSwordItem;
 import net.tech.cortisolmod.networking.ModMessages;
 import net.tech.cortisolmod.networking.packet.CortisolSyncS2CPacket;
@@ -57,11 +59,12 @@ public class ModEvents {
     public static final int EAT_DECREASE_AMOUNT = 1;
     public static final int ATTACK_INCREASE_AMOUNT = 1;
     public static final int DAMAGE_INCREASE_AMOUNT = 1;
-    public static final int BREAK_INCREASE_AMOUNT = 1;
+    public static final float BREAK_INCREASE_AMOUNT = 0.01f;
+    public static final float CORTISOL_INGOT_INCREASE_AMOUNT = 0.05f;
 
-    public static final float  CORTISOL_EXPLOSION_RADIUS=1;
+    public static final float  CORTISOL_EXPLOSION_RADIUS=5;
 
-    public static final int SLOW_THRESHOLD = 5;
+    public static final int SLOW_THRESHOLD = 10;
     public static final int SPEED_CORTISOL_THRESHOLD = 70;
     public static final int DROP_ITEM_CORTISOL_THRESHOLD = 80;
     public static final int BLINKING_TREASHOLD = 20;
@@ -208,6 +211,10 @@ public class ModEvents {
                     cortisol.subCortisol(FISHING_CORTISOL);
 
                 }
+                if(player.getInventory().contains(new ItemStack(ModItems.CORTILIUM_INGOT.get())) ){
+                    cortisol.addCortisol(CORTISOL_INGOT_INCREASE_AMOUNT);
+                }
+
 
                 //slippery hands
 

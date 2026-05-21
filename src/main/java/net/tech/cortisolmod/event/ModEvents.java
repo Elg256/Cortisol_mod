@@ -142,7 +142,7 @@ public class ModEvents {
                     if (level.getBlockState(pos).getBlock() == Blocks.CAMPFIRE) {
                         player.getCapability(PlayerCortisolProvider.PLAYER_CORTISOL).ifPresent(cortisol -> {
                             if (cortisol.getCortisol() > PlayerCortisol.MIN_CORTISOL) {
-                                cortisol.subCortisol(CAMPFIRE_DECREASE_AMOUNT);
+                                cortisol.subCortisol(CAMPFIRE_DECREASE_AMOUNT,player);
                                 ModMessages.sendToAllPlayers(
                                         new CortisolSyncS2CPacket(player.getId(), cortisol.getCortisol())
                                 );
@@ -165,7 +165,7 @@ public class ModEvents {
                             .anyMatch(mob -> mob.getPersistentData().getBoolean("cortisol_mob"));
 
                     if (foundCortisolMob) {
-                        cortisol.addCortisol(SPECIAL_MOB_CORTISOL);
+                        cortisol.addCortisol(SPECIAL_MOB_CORTISOL,player);
                         ModMessages.sendToAllPlayers(
                                 new CortisolSyncS2CPacket(player.getId(), cortisol.getCortisol())
                         );
@@ -208,26 +208,26 @@ public class ModEvents {
                 }
 
                 if(player.fishing!=null&&player.fishing.isInWater()){
-                    cortisol.subCortisol(FISHING_CORTISOL);
+                    cortisol.subCortisol(FISHING_CORTISOL,player);
 
                 }
                 if(player.getInventory().contains(new ItemStack(ModItems.CORTILIUM_INGOT.get())) ){
-                    cortisol.addCortisol(CORTISOL_INGOT_INCREASE_AMOUNT);
+                    cortisol.addCortisol(CORTISOL_INGOT_INCREASE_AMOUNT,player);
                 }
 
 
                 //slippery hands
 
-                if (currentCortisol > DROP_ITEM_CORTISOL_THRESHOLD &&
-                        player.getRandom().nextFloat() < DROP_ITEM_CHANCE) {
-
-                    ItemStack stack = player.getMainHandItem();
-
-                    if (!stack.isEmpty()) {
-                        player.drop(stack.copy(), true);
-                        player.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
-                    }
-                }
+//                if (currentCortisol > DROP_ITEM_CORTISOL_THRESHOLD &&
+//                        player.getRandom().nextFloat() < DROP_ITEM_CHANCE) {
+//
+//                    ItemStack stack = player.getMainHandItem();
+//
+//                    if (!stack.isEmpty()) {
+//                        player.drop(stack.copy(), true);
+//                        player.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+//                    }
+//                }
 
                 // speed
                 if (currentCortisol > SPEED_CORTISOL_THRESHOLD) {
@@ -295,7 +295,7 @@ public class ModEvents {
             if (event.getItem().isEdible()) {
                 event.getEntity().getCapability(PlayerCortisolProvider.PLAYER_CORTISOL).ifPresent(cortisol -> {
                     if (cortisol.getCortisol() > PlayerCortisol.MIN_CORTISOL) {
-                        cortisol.subCortisol(EAT_DECREASE_AMOUNT);
+                        cortisol.subCortisol(EAT_DECREASE_AMOUNT,player);
                         ModMessages.sendToAllPlayers(
                                 new CortisolSyncS2CPacket(player.getId(), cortisol.getCortisol())
                         );
@@ -314,7 +314,7 @@ public class ModEvents {
 
 
 
-                    cortisol.addCortisol(DAMAGE_INCREASE_AMOUNT);
+                    cortisol.addCortisol(DAMAGE_INCREASE_AMOUNT,player);
 
 
                     ModMessages.sendToAllPlayers(
@@ -336,7 +336,7 @@ public class ModEvents {
                         int currentTick = player.tickCount;
                         if (cortisol.getLastHitTick() != currentTick) {
 
-                            cortisol.addCortisol(ATTACK_INCREASE_AMOUNT);
+                            cortisol.addCortisol(ATTACK_INCREASE_AMOUNT,player);
 
                             cortisol.setLastHitTick(currentTick);
                             ModMessages.sendToAllPlayers(
@@ -353,7 +353,7 @@ public class ModEvents {
     public static void onPlayerBreak(BlockEvent.BreakEvent event){
         event.getPlayer().getCapability(PlayerCortisolProvider.PLAYER_CORTISOL).ifPresent(cortisol -> {
             if (cortisol.getCortisol() < PlayerCortisol.REAL_MAX_CORTISOL) {
-                                cortisol.addCortisol(BREAK_INCREASE_AMOUNT);
+                                cortisol.addCortisol(BREAK_INCREASE_AMOUNT, event.getPlayer());
                 Player player = event.getPlayer();
                 ModMessages.sendToAllPlayers(
                         new CortisolSyncS2CPacket(player.getId(), cortisol.getCortisol())

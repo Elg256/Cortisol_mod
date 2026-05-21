@@ -12,6 +12,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.tech.cortisolmod.block.ModBlocks;
+import net.tech.cortisolmod.effect.ModEffects;
 import net.tech.cortisolmod.item.ModCreativeModTabs;
 import net.tech.cortisolmod.item.ModItems;
 import net.tech.cortisolmod.networking.ModMessages;
@@ -36,6 +37,7 @@ public class CortisolMod
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModCreativeModTabs.register(modEventBus);
+        ModEffects.register(modEventBus);
 
         ModParticles.register(modEventBus);
 

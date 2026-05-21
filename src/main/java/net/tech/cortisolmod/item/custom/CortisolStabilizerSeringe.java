@@ -1,41 +1,41 @@
 package net.tech.cortisolmod.item.custom;
 
+
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.tech.cortisolmod.cortisol.PlayerCortisolProvider;
+import net.tech.cortisolmod.effect.ModEffects;
 import net.tech.cortisolmod.networking.ModMessages;
 import net.tech.cortisolmod.networking.packet.CortisolSyncS2CPacket;
 
 import java.util.function.Consumer;
 
-public class LowCortisolAutoInjectorItem extends Item {
 
-    private final int cooldown;
-    private final float cortisol_amount;
-    private final int useDuration= 15;
-    public LowCortisolAutoInjectorItem(Properties pProperties, int cooldown, float cortisol_add) {
+public class CortisolStabilizerSeringe extends Item {
+    private int cooldown;
+    private int duration;
+    private int useDuration=15;
+    public CortisolStabilizerSeringe(Item.Properties pProperties, int cooldown, int duration) {
         super(pProperties);
         this.cooldown = cooldown;
-        this.cortisol_amount = cortisol_add;
-
+        this.duration = duration;
     }
+
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        // Lance l'animation de "chargement" / utilisation
         player.startUsingItem(hand);
         return InteractionResultHolder.consume(player.getItemInHand(hand));
     }
@@ -44,13 +44,7 @@ public class LowCortisolAutoInjectorItem extends Item {
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
         if (!level.isClientSide && entity instanceof Player player) {
 
-            player.getCapability(PlayerCortisolProvider.PLAYER_CORTISOL).ifPresent(cortisol -> {
-                cortisol.subCortisol(this.cortisol_amount,player);
-
-                ModMessages.sendToAllPlayers(
-                        new CortisolSyncS2CPacket(player.getId(), cortisol.getCortisol())
-                );
-            });
+            player.addEffect(new MobEffectInstance(ModEffects.CORTISOL_STABILIZER_EFFECT.get(),duration,0,false,true,true));
 
             player.getCooldowns().addCooldown(this, cooldown);
 
@@ -122,12 +116,12 @@ public class LowCortisolAutoInjectorItem extends Item {
                     // avant / arrière
                     //poseStack.translate(0.0F, -curve * 0.10F, -curve * 0.35F);
 
-                   //haut/bas
+                    //haut/bas
                     poseStack.translate(0.0F, anim*0.5f, 0.0F);
 
                     // rotation
                     //poseStack.mulPose(Axis.XP.rotationDegrees(-curve * 35f));
-                    }
+                }
 
 
                 return false;
@@ -135,9 +129,11 @@ public class LowCortisolAutoInjectorItem extends Item {
         });
     }
 
+
+
     @Override
     public int getUseDuration(ItemStack stack) {
-        return 15;
+        return useDuration;
     }
 
     @Override

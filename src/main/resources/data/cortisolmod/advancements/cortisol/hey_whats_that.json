@@ -1,0 +1,15 @@
+{
+  "parent": "cortisolmod:cortisol/i_feel_good",
+  "display": {
+    "icon": { "item": "cortisolmod:high_cortisol_injector" },
+    "title": { "text": "Hey, what's that ?" },
+    "description": { "text": "Reach more than 90 cortisol." },
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "criteria": {
+    "high_cortisol": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

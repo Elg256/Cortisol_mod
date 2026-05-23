@@ -23,6 +23,7 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.tech.cortisolmod.biome.ModBiomes;
 import net.tech.cortisolmod.item.ModItems;
 import net.tech.cortisolmod.particle.ModParticles;
 import net.tech.cortisolmod.util.AdvancementHelper;

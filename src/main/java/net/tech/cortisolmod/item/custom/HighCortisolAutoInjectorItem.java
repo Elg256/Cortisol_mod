@@ -109,11 +109,10 @@ public class HighCortisolAutoInjectorItem extends Item {
                         && ItemStack.isSameItemSameTags(player.getUseItem(), itemInHand)) {
                     float x= (float)(player.getUseItemRemainingTicks()-2) /useDuration;
 
-                    float progress =
-                            1.0F - ((player.getUseItemRemainingTicks() - partialTick) / 15F);
+                    float progress =player.getUseItemRemainingTicks()-5;
 
 
-                    float anim = Math.max((float)Math.sin(progress * Math.PI)*(float)Math.exp( 1- 2.8*x),-0.5f);
+                    float anim = Math.max((float)(Math.exp(-0.316*(progress))*(1-Math.exp(-3.8*progress))),0f);
 
                     int dir = arm == HumanoidArm.RIGHT ? 1 : -1;
 

@@ -1,0 +1,16 @@
+{
+  "parent": "cortisolmod:cortisol/get_unstressed",
+  "display": {
+    "icon": { "item": "minecraft:diamond_sword" },
+    "title": { "text": "Now, i'm relaxed" },
+    "description": { "text": "Kill 30 cortisol mobs." },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "criteria": {
+    "custom_trigger": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

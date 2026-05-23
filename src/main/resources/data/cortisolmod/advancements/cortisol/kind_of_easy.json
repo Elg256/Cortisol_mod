@@ -1,0 +1,15 @@
+{
+  "parent": "cortisolmod:cortisol/get_unstressed",
+  "display": {
+    "icon": { "item": "cortisolmod:cortisol_sword" },
+    "title": { "text": "Kind of easy" },
+    "description": { "text": "Kill a mob with the cortisol sword to its max level." },
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "criteria": {
+    "custom_trigger": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "parent": "cortisolmod:cortisol/i_feel_good",
+  "display": {
+    "icon": { "item": "minecraft:wither_skeleton_skull" },
+    "title": { "text": "GL HF" },
+    "description": { "text": "Spawn a cortisol wither." },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "criteria": {
+    "spawn_cortisol_wither": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

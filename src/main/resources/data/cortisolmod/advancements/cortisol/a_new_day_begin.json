@@ -1,0 +1,13 @@
+{
+  "display": {
+    "icon": { "item": "minecraft:book" },
+    "title": { "text": "Cortisol" },
+    "description": { "text": "A new day begin..." },
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "criteria": {
+    "tick": { "trigger": "minecraft:tick" }
+  }
+}

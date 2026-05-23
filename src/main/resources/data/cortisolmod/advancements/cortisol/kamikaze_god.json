@@ -1,0 +1,16 @@
+{
+  "parent": "cortisolmod:cortisol/kaboom",
+  "display": {
+    "icon": { "item": "minecraft:tnt" },
+    "title": { "text": "Kamikaze GOD !" },
+    "description": { "text": "Kill the dragon with your cortisol explosion." },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "criteria": {
+    "custom_trigger": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "parent": "cortisolmod:cortisol/attack_cortisol_mob",
+  "display": {
+    "icon": { "item": "minecraft:bone" },
+    "title": { "text": "Get unstressed" },
+    "description": { "text": "Kill a cortisol mob." },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "criteria": {
+    "kill_cortisol": {
+      "trigger": "minecraft:impossible"
+    }
+  }
+}

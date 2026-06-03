@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.network.NetworkEvent;
+import net.tech.cortisolmod.client.ClientCortisolData;
 
 import java.util.function.Supplier;
 
@@ -27,16 +28,20 @@ public class CortisolMobSyncS2CPacket {
     }
 
 
-    public boolean handle( Supplier<NetworkEvent.Context> ctx) {
+
+    public boolean handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            // Côté client
-            Entity entity = Minecraft.getInstance().level.getEntity(entityId);
-            if (entity != null) {
-                // On stocke dans persistentData côté client aussi
-                entity.getPersistentData().putBoolean("cortisol_mob", isCortisol);
+
+            if (isCortisol) {
+                ClientCortisolData.CORTISOL_MOBS.add(entityId);
+            } else {
+                ClientCortisolData.CORTISOL_MOBS.remove(entityId);
             }
+
+            System.out.println("[CLIENT] stored cortisol mob id=" + entityId);
         });
 
+        ctx.get().setPacketHandled(true);
         return true;
     }
 }

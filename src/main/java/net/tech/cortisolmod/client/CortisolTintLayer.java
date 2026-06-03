@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -25,11 +26,18 @@ public class CortisolTintLayer<T extends LivingEntity, M extends EntityModel<T>>
                        T entity, float limbSwing, float limbSwingAmount, float partialTick,
                        float ageInTicks, float netHeadYaw, float headPitch) {
 
-        System.out.println("Layer appelé pour : " + entity.getClass().getSimpleName());
-        boolean hasCortisol = entity.getPersistentData().getBoolean("cortisol_mob");
-        System.out.println("cortisol_mob tag = " + hasCortisol);
+//        System.out.println(
+//                entity.getName().getString()
+//                        + " -> "
+//                        + entity.getPersistentData()
+//                        .getBoolean("cortisol_mob")
+//        );
+        //boolean hasCortisol = entity.getEntityData().get(ModEntityData.CORTISOL_MOB);
+        //System.out.println("cortisol_mob tag = " + hasCortisol);
         // Même tag NBT que dans CortisolMobEvents
-        if (!entity.getPersistentData().getBoolean("cortisol_mob")) return;
+        if (!(entity instanceof Monster)) return;
+
+        if (!ClientCortisolData.CORTISOL_MOBS.contains(entity.getId())) return;
 
 
         VertexConsumer vertexConsumer = bufferSource.getBuffer(

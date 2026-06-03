@@ -4,6 +4,9 @@
   "item.cortisolmod.high_cortisol_injector": "High Cortisol Injector",
   "item.cortisolmod.low_cortisol_injector": "Low Cortisol Injector",
   "item.cortisolmod.cortisol_stabilizer_seringe": "Cortisol Stabilizer",
+  "item.cortisolmod.cortilium": "Cortilium",
+  "item.cortisolmod.cortilium_ingot": "Cortilium Ingot",
+
   "creativetab.cortisol_tab": "Cortisol",
   "tooltip.cortisolmod.cortisol.separator": "",
 

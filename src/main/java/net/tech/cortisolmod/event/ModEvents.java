@@ -25,6 +25,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 
+import net.minecraft.world.level.block.CampfireBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -139,8 +141,8 @@ public class ModEvents {
                 for (BlockPos pos : BlockPos.betweenClosed(
                         playerPos.offset(-5, -2, -5),
                         playerPos.offset(5, 2, 5))) {
-
-                    if (level.getBlockState(pos).getBlock() == Blocks.CAMPFIRE) {
+                    net.minecraft.world.level.block.state.BlockState state = level.getBlockState(pos);
+                    if (state.getBlock() instanceof CampfireBlock && state.getValue(CampfireBlock.LIT)) {
                         player.getCapability(PlayerCortisolProvider.PLAYER_CORTISOL).ifPresent(cortisol -> {
                             if (cortisol.getCortisol() > PlayerCortisol.MIN_CORTISOL) {
                                 cortisol.subCortisol(CAMPFIRE_DECREASE_AMOUNT,player);

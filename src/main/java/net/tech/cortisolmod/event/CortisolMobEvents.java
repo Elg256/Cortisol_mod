@@ -19,7 +19,6 @@ import net.tech.cortisolmod.networking.ModMessages;
 import net.tech.cortisolmod.networking.packet.CortisolMobSyncS2CPacket;
 import net.tech.cortisolmod.particle.ModParticles;
 import net.tech.cortisolmod.util.AdvancementHelper;
-import net.tech.cortisolmod.util.ModEntityData;
 import net.tech.cortisolmod.worldgen.biome.ModBiomes;
 
 import java.util.Random;
@@ -44,6 +43,7 @@ public class CortisolMobEvents {
 
     // 1% chance (it's actually a lot, no ???)
     private static final double CHANCE = 0.01;
+
 
     @SubscribeEvent
     public static void onFinalizeSpawn(MobSpawnEvent.FinalizeSpawn event) {
@@ -95,11 +95,19 @@ public class CortisolMobEvents {
         mob.setHealth(mob.getMaxHealth());
 
         // Simple visuals
-        mob.setCustomNameVisible(true);
+        //mob.setCustomNameVisible(true);
         // Uncomment to set a custom name to the mob ("Cortisol [mobname]" in red)
         // mob.setCustomName(net.minecraft.network.chat.Component.literal("§cCortisol " + mob.getName().getString()));
 
-        mob.getEntityData().set(ModEntityData.CORTISOL_MOB, true);    }
+
+        mob.getPersistentData().putBoolean("cortisol_mob", true);
+        ModMessages.sendToAllPlayers(
+                new CortisolMobSyncS2CPacket(
+                        mob.getId(),
+                        true
+                )
+        );
+        }
 
     // Made special drop for cortisol mob
     @SubscribeEvent
@@ -111,10 +119,12 @@ public class CortisolMobEvents {
         if (!entity.getPersistentData().getBoolean(TAG_CORTISOL)) return;
 
         Level level = entity.level();
-        // Drop cortilium (random between 1 and 2)
-        ItemStack diamonds = new ItemStack(ModItems.CORTILIUM.get(), random.nextInt(2)+1);
 
-        ItemEntity drop = new ItemEntity(level, entity.getX(), entity.getY(), entity.getZ(), diamonds);
+        // Drop cortilium (random between 1 and 2)
+
+        ItemStack cortilium = new ItemStack(ModItems.CORTILIUM.get(), random.nextInt(2)+1);
+
+        ItemEntity drop = new ItemEntity(level, entity.getX(), entity.getY(), entity.getZ(), cortilium);
         event.getDrops().add(drop);
 
         // Advancement
@@ -123,13 +133,6 @@ public class CortisolMobEvents {
         }
     }
 
-
-    @SubscribeEvent
-    public static void onLivingSpawn(net.minecraftforge.event.entity.living.sp event) {
-        if (event.getEntity() instanceof Mob mob) {
-            mob.getEntityData().set(ModEntityData.CORTISOL_MOB, false);
-        }
-    }
 
 
 
